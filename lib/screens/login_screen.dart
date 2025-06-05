@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
   }
@@ -40,11 +41,16 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     setState(() {
       _isLoading = false;
+
+    navigateToHome();
     });
   }
 
   void navigateToSignUp() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignupScreen()));
+  }
+  void navigateToHome() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   Widget build(BuildContext context) {
