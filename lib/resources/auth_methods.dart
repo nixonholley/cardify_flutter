@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cardify_flutter/resources/storage_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:cardify_flutter/requests/requests.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -25,7 +28,7 @@ class AuthMethods {
 
         //String photoUrl = await StorageMethods().uploadImageToStorage('profilePics', file, false);
 
-        // add user to database
+        // add user to firebase database
         await _firestore.collection('users').doc(cred.user!.uid).set({
           'username' : username,
           'uid': cred.user!.uid,
@@ -34,11 +37,15 @@ class AuthMethods {
           'following' : [],
           //'photoUrl' : photoUrl,
         });
+
+        // add user to local database
+        await createUser(email: email, uid: cred.user!.uid, username: username, file: file);
+
         res = 'success';
       }
     }
     catch(err){
-      res = err.toString();
+      return err.toString();
     }
     return res;
   }
