@@ -1,4 +1,6 @@
-import 'package:cardify_flutter/screens/home_screen.dart';
+import 'package:cardify_flutter/responsive/mobile_screen_layout.dart';
+import 'package:cardify_flutter/responsive/responsive_layout_screen.dart';
+import 'package:cardify_flutter/responsive/web_screen_layout.dart';
 import 'package:cardify_flutter/screens/signup_screen.dart';
 import 'package:cardify_flutter/utils/colors.dart';
 import 'package:cardify_flutter/utils/utils.dart';
@@ -35,22 +37,30 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordController.text,
     );
     if (res == "success") {
-      //
+      navigateToReponsive();
     } else {
       ShowSnackBar(res, context);
     }
     setState(() {
       _isLoading = false;
-
-    navigateToHome();
     });
   }
 
   void navigateToSignUp() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignupScreen()));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const SignupScreen()));
   }
-  void navigateToHome() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+
+  void navigateToReponsive() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const ResponsiveLayout(
+          mobileScreenLayout: MobileScreenLayout(),
+          webScreenLayout: WebScreenLayout(),
+        ),
+      ),
+    );
   }
 
   Widget build(BuildContext context) {

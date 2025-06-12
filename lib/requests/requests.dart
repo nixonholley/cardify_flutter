@@ -1,25 +1,17 @@
 import 'dart:convert';
+import 'package:cardify_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
-Future<String> createUser({
-  required String email,
-  required String uid,
-  required String username,
-  required Uint8List file,
-}) async {
+Future<String> createUser({required User user}) async {
   final url = Uri.parse('http://127.0.0.1:8080/users');
-  final base64image = base64Encode(file);
+  
+  Map<String, dynamic> body = user.toJson();
 
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
-    body: jsonEncode({
-      "Uid": uid,
-      "Username": username,
-      "Email": email,
-      "Picture": base64image,
-    }),
+    body: body,
   );
   String res = "some error occured";
   if (response.statusCode == 200) {
@@ -51,5 +43,3 @@ Future<void> updateUser(String uid) async {
     print("Update failed: ${response.statusCode}");
   }
 }
-
-

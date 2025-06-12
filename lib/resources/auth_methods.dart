@@ -1,15 +1,11 @@
-import 'dart:convert';
-
-import 'package:cardify_flutter/resources/storage_methods.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:cardify_flutter/requests/requests.dart';
+import 'package:cardify_flutter/models/user.dart' as models;
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   //sign up
   Future<String> signUpUser({
@@ -19,32 +15,32 @@ class AuthMethods {
     required Uint8List file,
   }) async {
     String res = "Some error occured";
-    try{
-      if(email.isNotEmpty || password.isNotEmpty || username.isNotEmpty || file!=null){
+    try {
+      if (email.isNotEmpty ||
+          password.isNotEmpty ||
+          username.isNotEmpty ||
+          file != null) {
         // register user
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+        UserCredential cred = await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
 
-        print(cred.user!.uid);
-
-        //String photoUrl = await StorageMethods().uploadImageToStorage('profilePics', file, false);
-
-        // add user to firebase database
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username' : username,
-          'uid': cred.user!.uid,
-          'email' : email,
-          'friends' : [],
-          'following' : [],
-          //'photoUrl' : photoUrl,
-        });
+        models.User user = models.User(
+          username: username,
+          uid: cred.user!.uid,
+          email: email,
+          photo: file,
+          following: [],
+          friends: [],
+        );
 
         // add user to local database
-        await createUser(email: email, uid: cred.user!.uid, username: username, file: file);
+        await createUser(user: user);
 
         res = 'success';
       }
-    }
-    catch(err){
+    } catch (err) {
       return err.toString();
     }
     return res;
@@ -56,16 +52,18 @@ class AuthMethods {
     required String password,
   }) async {
     String res = "some error occured";
-    
+
     try {
-      if(email.isNotEmpty || password.isNotEmpty){
-        await _auth.signInWithEmailAndPassword(email: email, password: password);
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
         res = "success";
       }
-    }
-    catch(err){
+    } catch (err) {
       res = err.toString();
     }
-    return res; 
+    return res;
   }
 }
