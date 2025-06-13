@@ -1,16 +1,13 @@
 # cardify_flutter
 
-A new Flutter project.
+## Cardify
+- A app meant to scan and value different trading cards
 
-## Getting Started
+### Project Setup
+- Frontend is found in this repo
+- API is found in https://github.com/nixonholley/restAPI
+- DB is found in https://github.com/nixonholley/database_docker
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Email nixon.holley2@gmail.com
+- Any suggestions, input, questions
