@@ -1,7 +1,7 @@
 # cardify_flutter
 
 ## Cardify
-- A app meant to scan and value different trading cards
+- An app meant to scan and value different trading cards
 
 ### Project Setup
 - Frontend is found in this repo
