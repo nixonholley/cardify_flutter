@@ -10,17 +10,19 @@ import 'package:cardify_flutter/responsive/mobile_screen_layout.dart';
 import 'package:cardify_flutter/responsive/web_screen_layout.dart';
 import 'package:cardify_flutter/screens/login_screen.dart';
 import 'package:cardify_flutter/screens/signup_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   if (kIsWeb) {
     await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "AIzaSyDB_xsIYVHPYhjitRSi0J63woO2pYW4kps",
-        appId: "1:1016059809118:web:78838e8dae6072fa41d3cf",
-        messagingSenderId: "1016059809118",
-        projectId: "cardify-85387",
-        storageBucket: "cardify-85387.firebasestorage.app",
+      options: FirebaseOptions(
+        apiKey: dotenv.get('APIKEY'),
+        appId: dotenv.get('APPID'),
+        messagingSenderId: dotenv.get('MESSAGINGSENDERID'),
+        projectId: dotenv.get('PROJECTID'),
+        storageBucket: dotenv.get('STORAGEBUCKET'),
       ),
     );
   } else {
