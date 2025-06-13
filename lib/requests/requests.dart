@@ -11,7 +11,7 @@ Future<String> createUser({required User user}) async {
   final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
-    body: body,
+    body: jsonEncode(body),
   );
   String res = "some error occured";
   if (response.statusCode == 200) {
